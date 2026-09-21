@@ -41,8 +41,8 @@ fn main() -> Result<(), ParseErr> {
     match programb[ctr] {
       b'>' => ptr += 1,
       b'<' => ptr -= 1,
-      b'+' => tape[ptr] += 1,
-      b'-' => tape[ptr] -= 1,
+      b'+' => tape[ptr] = tape[ptr].wrapping_add(1), // to prevent overflow
+      b'-' => tape[ptr] = tape[ptr].wrapping_sub(1),
       b'.' => print!("{}", tape[ptr] as char),
       b',' => {},
       b'[' if tape[ptr] == 0 => ctr = bimap[ctr],
