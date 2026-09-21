@@ -31,7 +31,10 @@ fn map(text: &[u8]) -> Result<Vec<usize>, ParseErr> {
 
 
 fn main() -> Result<(), ParseErr> {
-  let program = "--[----->+<]>----.[--->+<]>----.+++[->+++<]>++.++++++++.+++++.--------.-[--->+<]>--.+[->+++<]>+.++++++++.";
+  print!("Input your brainfuck syntax: ");
+  let mut program = String::new();
+  let _ = stdin().read_line(&mut program);
+
   let mut tape = [0u8; 50000];
   let mut ptr = 0usize;
   let mut ctr = 0usize;
