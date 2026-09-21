@@ -6,6 +6,8 @@ enum ParseErr {
   InvalidClose(usize),
 }
 
+/// builds a bimap for the entire program.
+/// better for cache locality than using the bimap itself
 fn map(text: &[u8]) -> Result<Vec<usize>, ParseErr> {
     let mut res = vec![0usize; text.len()];
     let mut stack = Vec::new();
@@ -29,11 +31,10 @@ fn map(text: &[u8]) -> Result<Vec<usize>, ParseErr> {
     Ok(res)
 }
 
-
 fn main() -> Result<(), ParseErr> {
   print!("Input your brainfuck syntax: ");
   let mut program = String::new();
-  let _ = stdin().read_line(&mut program);
+  _ = stdin().read_line(&mut program);
 
   let mut tape = [0u8; 50000];
   let mut ptr = 0usize;
