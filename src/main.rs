@@ -1,3 +1,11 @@
+fn map(text: &str){
+  todo!()
+}
+
 fn main() {
-    println!("Hello, world!");
+  let program = "--[----->+<]>----.[--->+<]>----.+++[->+++<]>++.++++++++.+++++.--------.-[--->+<]>--.+[->+++<]>+.++++++++.";
+  let mut tape = [0u8; 50000];
+  let mut ptr = 0usize;
+  let mut ctr = 0usize;
+
 }
