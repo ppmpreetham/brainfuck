@@ -1,3 +1,5 @@
+use std::io::{Read, stdin};
+
 #[derive(Debug)]
 enum ParseErr {
   InvalidOpen(usize),
@@ -44,7 +46,7 @@ fn main() -> Result<(), ParseErr> {
       b'+' => tape[ptr] = tape[ptr].wrapping_add(1), // to prevent overflow
       b'-' => tape[ptr] = tape[ptr].wrapping_sub(1),
       b'.' => print!("{}", tape[ptr] as char),
-      b',' => {},
+      b',' => _ = stdin().read_exact(&mut tape[ptr..=ptr]),
       b'[' if tape[ptr] == 0 => ctr = bimap[ctr],
       b']' if tape[ptr] != 0 => ctr = bimap[ctr] - 1, // right before the loop
       _ => {}
