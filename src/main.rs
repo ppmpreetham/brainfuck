@@ -1,3 +1,4 @@
+#[derive(Debug)]
 enum ParseErr {
   InvalidOpen(usize),
   InvalidClose(usize),
@@ -27,19 +28,29 @@ fn map(text: &[u8]) -> Result<Vec<usize>, ParseErr> {
 }
 
 
-fn main() {
+fn main() -> Result<(), ParseErr> {
   let program = "--[----->+<]>----.[--->+<]>----.+++[->+++<]>++.++++++++.+++++.--------.-[--->+<]>--.+[->+++<]>+.++++++++.";
   let mut tape = [0u8; 50000];
   let mut ptr = 0usize;
   let mut ctr = 0usize;
 
   let programb = program.as_bytes();
-  let bimap = map(programb).ok();
+  let bimap = map(programb)?;
 
   while ctr < programb.len() {
     match programb[ctr] {
+      b'>' => ptr += 1,
+      b'<' => ptr -= 1,
+      b'+' => tape[ptr] += 1,
+      b'-' => tape[ptr] -= 1,
+      b'.' => print!("{}", tape[ptr] as char),
+      b',' => {},
+      b'[' if tape[ptr] == 0 => ctr = bimap[ctr],
+      b']' if tape[ptr] != 0 => ctr = bimap[ctr] - 1, // right before the loop
       _ => {}
     }
+    ctr += 1;
   }
 
+  Ok(())
 }
