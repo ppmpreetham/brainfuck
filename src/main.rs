@@ -1,12 +1,32 @@
 enum ParseErr {
-  InvalidOpen(char),
-  InvalidClose(char),
+  InvalidOpen(usize),
+  InvalidClose(usize),
 }
 
-fn map(text: &str) -> Result<Vec<usize>, ParseErr>{
-  let mut res = String::new();
-  todo!()
+fn map(text: &str) -> Result<Vec<usize>, ParseErr> {
+    let textb = text.as_bytes();
+    let mut res = vec![0usize; textb.len()];
+    let mut stack = Vec::new();
+    for (i, &val) in textb.iter().enumerate() {
+        match val {
+            b'[' => stack.push(i),
+            b']' => {
+                if let Some(open) = stack.pop() {
+                    res[open] = i;
+                    res[i] = open;
+                } else {
+                    return Err(ParseErr::InvalidClose(i));
+                }
+            }
+            _ => {}
+        }
+    }
+    if let Some(idx) = stack.pop() {
+        return Err(ParseErr::InvalidOpen(idx));
+    }
+    Ok(res)
 }
+
 
 fn main() {
   let program = "--[----->+<]>----.[--->+<]>----.+++[->+++<]>++.++++++++.+++++.--------.-[--->+<]>--.+[->+++<]>+.++++++++.";
