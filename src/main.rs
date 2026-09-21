@@ -1,4 +1,10 @@
-fn map(text: &str){
+enum ParseErr {
+  InvalidOpen(char),
+  InvalidClose(char),
+}
+
+fn map(text: &str) -> Result<Vec<usize>, ParseErr>{
+  let mut res = String::new();
   todo!()
 }
 
