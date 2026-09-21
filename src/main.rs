@@ -3,11 +3,10 @@ enum ParseErr {
   InvalidClose(usize),
 }
 
-fn map(text: &str) -> Result<Vec<usize>, ParseErr> {
-    let textb = text.as_bytes();
-    let mut res = vec![0usize; textb.len()];
+fn map(text: &[u8]) -> Result<Vec<usize>, ParseErr> {
+    let mut res = vec![0usize; text.len()];
     let mut stack = Vec::new();
-    for (i, &val) in textb.iter().enumerate() {
+    for (i, &val) in text.iter().enumerate() {
         match val {
             b'[' => stack.push(i),
             b']' => {
@@ -33,5 +32,14 @@ fn main() {
   let mut tape = [0u8; 50000];
   let mut ptr = 0usize;
   let mut ctr = 0usize;
+
+  let programb = program.as_bytes();
+  let bimap = map(programb).ok();
+
+  while ctr < programb.len() {
+    match programb[ctr] {
+      _ => {}
+    }
+  }
 
 }
